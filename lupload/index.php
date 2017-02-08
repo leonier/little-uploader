@@ -7,7 +7,8 @@
 	//$uploads = $db->selectuploads();
 	$uploadID = $db->selectuploadsid();
 	$upcount = count($uploadID);
-	$maxpage = floor($upcount/$filesperpage)+1;
+	$maxpage = ceil($upcount/$filesperpage);
+	if($maxpage==0) $maxpage=1;
 	if (empty($_GET['page']))
 		$pagenum=1;
 	else

@@ -32,7 +32,7 @@
 			$filecnt=count($idset);
 			if($minfile<0 || $minfile>$filecnt)
 				return array();
-			if($filecnt-$minfile<$filesperpage)
+			if($filecnt-$minfile<$filesperpage&&$filecnt-$minfile>0)
 				$maxfile=$minfile+$filecnt%$filesperpage;
 			//echo $minfile . ',' . $maxfile;
 			$sql = 'SELECT * from uploads WHERE id in (';
