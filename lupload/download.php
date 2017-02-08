@@ -15,9 +15,30 @@
 		$currentDir = $myPathInfo['dirname'];
 		$upDir = $currentDir . '/upload/';
 		$stored_filename=$upDir . $file[1] ;
-		header("Content-Type: " . mime_content_type($stored_filename));
+		$mimetype=mime_content_type($stored_filename);
+
+		//.amr is not defined in magic.mime
+		$ext = strtolower(pathinfo($stored_filename, PATHINFO_EXTENSION));
+		if(!strcmp($ext,'amr')) 
+			$mimetype='audio/amr';
+		if(!strcmp($ext,'mmf')||!strcmp($ext,'smaf')) 
+			$mimetype='application/x-smaf';
+		
+
+		header("Content-Type: " . $mimetype);
 		header("Content-Length: " . filesize($stored_filename));
-		header('Content-Disposition: filename="' . $file[0]. '"' );
+
+		if(!strcmp($mimetype, 'image/jpeg') ||
+		!strcmp($mimetype, 'image/png') ||
+		!strcmp($mimetype, 'image/gif')  )
+		{
+			header('Content-Disposition: filename="' . $file[0]. '"' );
+		}
+		else
+		{
+			header('Content-Disposition: attachment; filename="' . $file[0]. '"' );
+		}
+
 		readfile($stored_filename);
 	}
 ?>
