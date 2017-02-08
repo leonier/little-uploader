@@ -19,6 +19,33 @@
 			$query->execute();
 			return $query->fetchAll(PDO::FETCH_ASSOC);
 		}
+		function selectuploadsid()
+		{
+			$query = $this->pdo->prepare('SELECT id FROM uploads order by id desc');
+			$query->execute();
+			return $query->fetchAll(PDO::FETCH_ASSOC);
+		}
+		function selectuploadspage($idset, $page, $filesperpage)
+		{
+			$minfile=($page-1)*$filesperpage;
+			$maxfile=$page*$filesperpage;
+			$filecnt=count($idset);
+			if($minfile<0 || $minfile>$filecnt)
+				return array();
+			if($filecnt-$minfile<$filesperpage)
+				$maxfile=$minfile+$filecnt%$filesperpage;
+			//echo $minfile . ',' . $maxfile;
+			$sql = 'SELECT * from uploads WHERE id in (';
+			for($i=$minfile; $i<$maxfile-1; $i++)
+			{
+				$sql = $sql . $idset[$i]['id'] . ',';
+			}
+			$sql = $sql . $idset[$maxfile-1]['id'] . ');';
+
+			$query = $this->pdo->prepare($sql);
+			$query->execute();
+			return $query->fetchAll(PDO::FETCH_ASSOC);
+		}
 		function selectuploadfordownload($id)
 		{
 			$query = $this->pdo->prepare('SELECT filename, newname FROM uploads where id=:id');

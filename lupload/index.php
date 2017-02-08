@@ -2,9 +2,18 @@
 	header('Content-Type: text/html; charset=utf-8');
 	require_once 'db_config.php';
 	require_once 'db_class.php';
+	$myfile=basename($_SERVER['PHP_SELF']);
 	$db = new database($pdo);
-	$uploads = $db->selectuploads();
-
+	//$uploads = $db->selectuploads();
+	$uploadID = $db->selectuploadsid();
+	$upcount = count($uploadID);
+	$maxpage = floor($upcount/$filesperpage)+1;
+	if (empty($_GET['page']))
+		$pagenum=1;
+	else
+		$pagenum=$_GET['page'];
+	$uploadpage=array_reverse($db->selectuploadspage($uploadID, $pagenum, $filesperpage));
+		
 ?>
 <html>
 	<head>
@@ -24,7 +33,25 @@
 		<input type="submit" value="Upload" name="submit">
 		</form>
 		</div>
+		<div>
+		<?php echo $upcount; ?> files, page <?php echo $pagenum; ?>/<?php echo $maxpage; ?> 
+		</div>
+		<div>
+		<a href="<?php echo $myfile;?>?page=1">&lt;&lt;</a>
 
+		<?php if($pagenum>1):?>
+		<a href="<?php echo $myfile;?>?page=<?php echo $pagenum-1;?>"><?php echo $pagenum-1;?></a>
+		<?php endif; ?>
+
+		<?php echo $pagenum;?>
+
+		<?php if($pagenum<$maxpage):?>
+		<a href="<?php echo $myfile;?>?page=<?php echo $pagenum+1;?>"><?php echo $pagenum+1;?></a>
+		<?php endif; ?>
+
+		<a href="<?php echo $myfile;?>?page=<?php echo $maxpage;?>">&gt;&gt;</a>
+
+		</div>
 		<table>
 			<tr>
 				<td>Filename</td>
@@ -32,7 +59,7 @@
 				<td>Operation</td>
 			</tr>
 			
-			<?php foreach($uploads as $upfile): ?>
+			<?php foreach($uploadpage as $upfile): ?>
 			<tr>
 				<td><a href="download.php?id=<?php echo $upfile['id'];?>"><?php echo $upfile['filename']; ?></a></td>
 				<td><?php echo $upfile['date_upload']; ?></td>
@@ -41,6 +68,22 @@
 			<?php endforeach; ?>
 		</table>
 
+		<div>
+		<a href="<?php echo $myfile;?>?page=1">&lt;&lt;</a>
+
+		<?php if($pagenum>1):?>
+		<a href="<?php echo $myfile;?>?page=<?php echo $pagenum-1;?>"><?php echo $pagenum-1;?></a>
+		<?php endif; ?>
+
+		<?php echo $pagenum;?>
+
+		<?php if($pagenum<$maxpage):?>
+		<a href="<?php echo $myfile;?>?page=<?php echo $pagenum+1;?>"><?php echo $pagenum+1;?></a>
+		<?php endif; ?>
+
+		<a href="<?php echo $myfile;?>?page=<?php echo $maxpage;?>">&gt;&gt;</a>
+
+		</div>
 
 	</body>
 </html>

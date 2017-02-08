@@ -6,6 +6,8 @@
     $db_name = 'testup'; //Database Name
     $db_username = 'admin'; //Database Username
     $db_password = 'dr3113$0A'; //Database Password
+    
+    $filesperpage = 20;
 
     try
     {
