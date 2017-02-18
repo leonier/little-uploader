@@ -12,8 +12,11 @@ CREATE TABLE `uploads` (
   `date_upload` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `userip` varchar(128) DEFAULT NULL,
   `useragent` varchar(256) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=utf8;
+  `uploader` int(6) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uploader` (`uploader`),
+  CONSTRAINT `uploads_ibfk_1` FOREIGN KEY (`uploader`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=166 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 
@@ -29,6 +32,6 @@ CREATE TABLE `users` (
   `username` varchar(256) NOT NULL,
   `password_sha1` varchar(256) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
