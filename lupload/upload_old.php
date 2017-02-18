@@ -56,7 +56,7 @@ if ((($ftype == "image/jpeg")
 		{
 			$db->insertuploads($_FILES["file"]["name"],  $hash . '.'. $ext, gethostbyaddr($_SERVER['REMOTE_ADDR']), $_SERVER['HTTP_USER_AGENT']);
 			echo '<br />upload Succeeded!';
-			header("Location: index.php");
+			header("Location: index_old.php");
 		}
 		else
 		{

@@ -64,7 +64,7 @@
 			<tr>
 				<td><a href="download.php?id=<?php echo $upfile['id'];?>"><?php echo $upfile['filename']; ?></a></td>
 				<td><?php echo $upfile['date_upload']; ?></td>
-				<td><a href="delfile.php?id=<?php echo $upfile['id'];?>">Delete</a></td>
+				<td><a href="delfile_old.php?id=<?php echo $upfile['id'];?>">Delete</a></td>
 			</tr>
 			<?php endforeach; ?>
 		</table>
