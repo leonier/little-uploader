@@ -14,7 +14,9 @@
 	else
 		$pagenum=$_GET['page'];
 	$uploadpage=array_reverse($db->selectuploadspage($uploadID, $pagenum, $filesperpage));
-		
+	
+	session_start();
+	session_regenerate_id();
 ?>
 <html>
 	<head>
@@ -28,12 +30,20 @@
 	</head>
 	<body>
 		<div>
-		<form action="upload_old.php" method="post" enctype="multipart/form-data">
+		<?php if(!isset($_SESSION['username'])): ?>
+		<p>You must <a href="loginpage.php">Login</a> to upload files.</p>
+		<p><a href="register.php">Register</a> new user</p>
+		<?php else: ?>
+		<p>Logged in as <?php echo $_SESSION['username']; ?> <a href="logout.php">Logout</a></p>
+		<?php $islogin=1; ?>
+		<form action="upload.php" method="post" enctype="multipart/form-data">
 		Select file to upload:
 		<input type="file" name="file" id="file">
 		<input type="submit" value="Upload" name="submit">
 		</form>
+		<?php endif; ?>
 		</div>
+
 		<div>
 		<?php echo $upcount; ?> files, page <?php echo $pagenum; ?>/<?php echo $maxpage; ?> 
 		</div>
@@ -53,9 +63,11 @@
 		<a href="<?php echo $myfile;?>?page=<?php echo $maxpage;?>">&gt;&gt;</a>
 
 		</div>
+
 		<table>
 			<tr>
 				<td>Filename</td>
+				<td>Uploader</td>
 				<td>Upload date</td>
 				<td>Operation</td>
 			</tr>
@@ -63,8 +75,26 @@
 			<?php foreach($uploadpage as $upfile): ?>
 			<tr>
 				<td><a href="download.php?id=<?php echo $upfile['id'];?>"><?php echo $upfile['filename']; ?></a></td>
+				<td>
+					<?php if(isset($upfile['uploader'])): ?>
+					<?php
+						$uploader=$db->getuserfromid($upfile['uploader']);
+						echo $uploader['username'];
+					?>
+					<?php else: ?>
+					Anonymous
+					<?php endif; ?>
+				</td>
 				<td><?php echo $upfile['date_upload']; ?></td>
-				<td><a href="delfile.php?id=<?php echo $upfile['id'];?>">Delete</a></td>
+				<td>
+					<?php if($islogin==1): ?>
+					<?php if(isset($upfile['uploader'])): ?>
+					<?php if($uploader['username'] == $_SESSION['username']): ?>
+					<a href="delfile.php?id=<?php echo $upfile['id'];?>">Delete</a>
+					<?php endif; ?>
+					<?php endif; ?>
+					<?php endif; ?>
+				</td>
 			</tr>
 			<?php endforeach; ?>
 		</table>
