@@ -59,6 +59,13 @@
 			$query->execute(array(':filename' => $filename, ':newname' => $newname,  ':ip' => $ip, ':ua' => $ua));
 			return $query->fetchAll();		
 		}
+		function insertuploadswithuploader($filename, $newname, $uploader,  $ip, $ua)
+		{
+			$query = $this->pdo->prepare('insert into uploads (filename, newname, uploader, userip, useragent) values (:filename, :newname, :uploader, :ip, :ua)');
+			
+			$query->execute(array(':filename' => $filename, ':newname' => $newname, ':uploader' => $uploader,  ':ip' => $ip, ':ua' => $ua));
+			return $query->fetchAll();		
+		}
 		function deleteuploadbyid($id)
 		{
 			$query = $this->pdo->prepare('SELECT newname FROM uploads where id=:id');
@@ -85,5 +92,11 @@
 			$query = $this->pdo->prepare('SELECT * FROM users where username=:username');
 			$query->execute(array(':username' => $username));
 			return $query->fetch(PDO::FETCH_ASSOC);
+		}
+		function getuserfromid($id)
+		{
+			$query = $this->pdo->prepare('SELECT * FROM users where id=:id');
+			$query->execute(array(':id' => $id));
+			return $query->fetch(PDO::FETCH_ASSOC);			
 		}
         }

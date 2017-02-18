@@ -67,6 +67,7 @@
 		<table>
 			<tr>
 				<td>Filename</td>
+				<td>Uploader</td>
 				<td>Upload date</td>
 				<td>Operation</td>
 			</tr>
@@ -74,10 +75,24 @@
 			<?php foreach($uploadpage as $upfile): ?>
 			<tr>
 				<td><a href="download.php?id=<?php echo $upfile['id'];?>"><?php echo $upfile['filename']; ?></a></td>
+				<td>
+					<?php if(isset($upfile['uploader'])): ?>
+					<?php
+						$uploader=$db->getuserfromid($upfile['uploader']);
+						echo $uploader['username'];
+					?>
+					<?php else: ?>
+					Anonymous
+					<?php endif; ?>
+				</td>
 				<td><?php echo $upfile['date_upload']; ?></td>
 				<td>
 					<?php if($islogin==1): ?>
+					<?php if(isset($upfile['uploader'])): ?>
+					<?php if($uploader['username'] == $_SESSION['username']): ?>
 					<a href="delfile.php?id=<?php echo $upfile['id'];?>">Delete</a>
+					<?php endif; ?>
+					<?php endif; ?>
 					<?php endif; ?>
 				</td>
 			</tr>

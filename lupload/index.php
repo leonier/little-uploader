@@ -28,7 +28,7 @@
 	</head>
 	<body>
 		<div>
-		<form action="upload.php" method="post" enctype="multipart/form-data">
+		<form action="upload_old.php" method="post" enctype="multipart/form-data">
 		Select file to upload:
 		<input type="file" name="file" id="file">
 		<input type="submit" value="Upload" name="submit">
