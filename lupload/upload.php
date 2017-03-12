@@ -63,6 +63,15 @@ else
 					$upDir = $currentDir . '/upload/';
 					$hash = md5_file($_FILES["file"]["tmp_name"]);
 					$ext = end((explode(".", $_FILES["file"]["name"])));
+					
+					if(file_exists($upDir . $hash . '.'. $ext))
+					{
+						if(!strcmp($hash,md5_file($upDir . $hash . '.'. $ext)))
+						{
+							echo "File already exists!<br />";
+							exit();
+						}
+					}
 
 					if (move_uploaded_file($_FILES["file"]["tmp_name"], $upDir . $hash . '.'. $ext))
 					{

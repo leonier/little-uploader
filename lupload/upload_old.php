@@ -52,6 +52,16 @@ if ((($ftype == "image/jpeg")
 		$hash = md5_file($_FILES["file"]["tmp_name"]);
 		$ext = end((explode(".", $_FILES["file"]["name"])));
 
+		if(file_exists($upDir . $hash . '.'. $ext))
+		{
+			if(!strcmp($hash,md5_file($upDir . $hash . '.'. $ext)))
+			{
+				echo "File already exists!<br />";
+				exit();
+			}
+		}
+
+
 		if (move_uploaded_file($_FILES["file"]["tmp_name"], $upDir . $hash . '.'. $ext))
 		{
 			$db->insertuploads($_FILES["file"]["name"],  $hash . '.'. $ext, gethostbyaddr($_SERVER['REMOTE_ADDR']), $_SERVER['HTTP_USER_AGENT']);
