@@ -18,6 +18,17 @@
 	}
 	else
 	{
+		$file=$db->selectuploadbyid($_GET['id']);
+		if(!isset($file['filename']))
+		{
+			echo "Invalid file!";
+			exit();
+		}
+		if(isset($file['uploader']))
+		{
+			echo "Cannot delete non-anonymous file in anonymous mode!";
+			exit();
+		}
 		$db->deleteuploadbyid($_GET['id']);
 		header("Location: index_old.php"); 
 		exit();

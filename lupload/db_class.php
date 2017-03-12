@@ -52,6 +52,12 @@
 			$query->execute(array(':id'=>$id));
 			return $query->fetch();
 		}
+		function selectuploadbyid($id)
+		{
+			$query = $this->pdo->prepare('SELECT * FROM uploads where id=:id');
+			$query->execute(array(':id'=>$id));
+			return $query->fetch(PDO::FETCH_ASSOC);
+		}
 		function insertuploads($filename, $newname,  $ip, $ua)
 		{
 			$query = $this->pdo->prepare('insert into uploads (filename, newname, userip, useragent) values (:filename, :newname, :ip, :ua)');
