@@ -105,4 +105,58 @@
 			$query->execute(array(':id' => $id));
 			return $query->fetch(PDO::FETCH_ASSOC);			
 		}
+		function selectmessagesid()
+		{
+			$query = $this->pdo->prepare('SELECT id FROM messages order by id desc');
+			$query->execute();
+			return $query->fetchAll(PDO::FETCH_ASSOC);
+		}
+		function selectmessagespage($idset, $page, $filesperpage)
+		{
+			$minfile=($page-1)*$filesperpage;
+			$maxfile=$page*$filesperpage;
+			$filecnt=count($idset);
+			if($minfile<0 || $minfile>$filecnt)
+				return array();
+			if($filecnt-$minfile<$filesperpage&&$filecnt-$minfile>0)
+				$maxfile=$minfile+$filecnt%$filesperpage;
+
+
+			//echo $minfile . ',' . $maxfile;
+			$sql = 'SELECT id,poster,title,date_create from messages WHERE id in (';
+			for($i=$minfile; $i<$maxfile-1; $i++)
+			{
+				$sql = $sql . $idset[$i]['id'] . ',';
+			}
+			$sql = $sql . $idset[$maxfile-1]['id'] . ');';
+
+			$query = $this->pdo->prepare($sql);
+			$query->execute();
+			return $query->fetchAll(PDO::FETCH_ASSOC);
+		}
+		function insertmessages($poster, $title, $mbody,  $ip, $ua)
+		{
+			$query = $this->pdo->prepare('insert into messages (poster, title, body, userip, useragent) values (:poster, :title, :mbody, :ip, :ua)');
+			 
+			$query->execute(array(':poster' => $poster, ':title' => $title,  ':mbody' => $mbody, ':ip' => $ip, ':ua' => $ua));
+			return $query->fetchAll();		
+		}
+		function selectmessagebyid($id)
+		{
+			$query = $this->pdo->prepare('SELECT * FROM messages where id=:id');
+			$query->execute(array(':id'=>$id));
+			return $query->fetch(PDO::FETCH_ASSOC);
+		}
+		function deletemessagebyid($id)
+		{
+			$query = $this->pdo->prepare('delete from messages where id=:id');
+			$query->execute(array(':id'=>$id));
+		}
+		function updatemessages($id, $title, $mbody,  $ip, $ua)
+		{
+			$query = $this->pdo->prepare("update messages set title=:title, body=:mbody, userip=:ip, useragent=:ua, date_modify=:dm where id=:id");
+			 
+			$query->execute(array(':id' => $id, ':title' => $title,  ':mbody' => $mbody, ':ip' => $ip, ':ua' => $ua, ':dm' => date("Y-m-d H:i:s") ));
+			return $query->fetchAll();		
+		}
         }
