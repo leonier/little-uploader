@@ -49,6 +49,8 @@ CREATE TABLE `messages` (
   `body` longtext NOT NULL,
   `date_create` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modify` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `userip` varchar(128) DEFAULT NULL,
+  `useragent` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `poster` (`poster`),
   CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`poster`) REFERENCES `users` (`id`) ON DELETE CASCADE
@@ -70,6 +72,8 @@ CREATE TABLE `replies` (
   `body` longtext NOT NULL,
   `date_create` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modify` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `userip` varchar(128) DEFAULT NULL,
+  `useragent` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `message` (`message`),
   CONSTRAINT `replies_ibfk_1` FOREIGN KEY (`message`) REFERENCES `messages` (`id`) ON DELETE CASCADE
