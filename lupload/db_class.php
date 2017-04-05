@@ -159,4 +159,35 @@
 			$query->execute(array(':id' => $id, ':title' => $title,  ':mbody' => $mbody, ':ip' => $ip, ':ua' => $ua, ':dm' => date("Y-m-d H:i:s") ));
 			return $query->fetchAll();		
 		}
+		function selectreplies($message)
+		{
+			$query = $this->pdo->prepare('SELECT * FROM replies where message=:message order by id');
+			$query->execute(array(':message'=>$message));
+			return $query->fetchAll(PDO::FETCH_ASSOC);			
+		}
+		function insertreplies($poster, $message, $title, $mbody,  $ip, $ua)
+		{
+			$query = $this->pdo->prepare('insert into replies (poster, message, title, body, userip, useragent) values (:poster, :message, :title, :mbody, :ip, :ua)');
+			 
+			$query->execute(array(':poster' => $poster, ':message' => $message, ':title' => $title,  ':mbody' => $mbody, ':ip' => $ip, ':ua' => $ua));
+			return $query->fetchAll();		
+		}
+		function selectreplybyid($id)
+		{
+			$query = $this->pdo->prepare('SELECT * FROM replies where id=:id');
+			$query->execute(array(':id'=>$id));
+			return $query->fetch(PDO::FETCH_ASSOC);
+		}
+		function deletereplybyid($id)
+		{
+			$query = $this->pdo->prepare('delete from replies where id=:id');
+			$query->execute(array(':id'=>$id));
+		}
+		function updatereplies($id, $title, $mbody,  $ip, $ua)
+		{
+			$query = $this->pdo->prepare("update replies set title=:title, body=:mbody, userip=:ip, useragent=:ua, date_modify=:dm where id=:id");
+			 
+			$query->execute(array(':id' => $id, ':title' => $title,  ':mbody' => $mbody, ':ip' => $ip, ':ua' => $ua, ':dm' => date("Y-m-d H:i:s") ));
+			return $query->fetchAll();		
+		}
         }

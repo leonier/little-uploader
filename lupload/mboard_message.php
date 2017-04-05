@@ -4,7 +4,8 @@
 	require_once 'db_class.php';
 	$myfile=basename($_SERVER['PHP_SELF']);
 	$db = new database($pdo);
-
+	$islogin = 0;
+	$replycnt = 0;
 	if (empty($_GET['id']))
 	{
 		echo "Request Error!";
@@ -24,6 +25,9 @@
 		$posttitle=$message['title'];
 	else
 		$posttitle="(Untitled)";
+
+	$replies=$db->selectreplies($message['id']);
+
 	session_start();
 	session_regenerate_id();
 ?>
@@ -61,7 +65,7 @@
 				<td>Poster:<?php echo $poster['username']; ?></td>
 				<td>Posted on:<?php echo $message['date_create']; ?></td>
 			</tr>
-			<tr><td colspan=2>Poster IP/Host:<?php echo $message['userip']; ?></td></tr>
+			<tr><td colspan=2>IP/Host:<?php echo $message['userip']; ?></td></tr>
 			<tr><td colspan=2><?php echo nl2br(htmlentities($message['body'])); ?></td></tr>
 			<tr><td colspan=2>
 			<?php if($message['date_modify']>0): ?>
@@ -72,9 +76,58 @@
 			<?php endif; ?>
 			</td></tr>			
 		</table>
+		
+		<?php foreach($replies as $reply): ?>
 		<?php
-			//TODO: process replies
+			$replycnt++;
+			$replier=$db->getuserfromid($reply['poster']);
+			if(!is_array($replier))
+				$repliername="(Deleted user)";
+			else
+				$repliername=$replier['username'];
+			$ownreply=0;
+			if(strcmp($replier['username'], $_SESSION['username'])==0)
+				$ownreply=1;
 		?>
+		<div>Reply <?php echo $replycnt; ?>:</div>
+		<table>
+			<tr>
+				<td colspan=2>Title:<?php echo $reply['title']; ?></td>
+			</tr>
+			<tr>
+				<td>Replier:<?php echo $repliername; ?></td>
+				<td>Replied on:<?php echo $reply['date_create']; ?></td>
+			</tr>
+			<tr><td colspan=2>IP/Host:<?php echo $reply['userip']; ?></td></tr>
+			<tr><td colspan=2><?php echo nl2br(htmlentities($reply['body'])); ?></td></tr>
+			<tr><td colspan=2>
+			<?php if($reply['date_modify']>0): ?>
+			Edited on <?php echo $reply['date_modify']; ?>
+			<?php endif; ?>		
+			<?php if($ownreply==1): ?>
+			<a href="mboard_editreply.php?id=<?php echo $reply['id']; ?>">Edit reply</a>
+			<a href="mboard_deletereply.php?id=<?php echo $reply['id']; ?>">Delete</a>
+			
+			<?php endif; ?>
+			</td></tr>	
+		</table>
+		<?php endforeach; ?>
+
+		<?php if($islogin==1):?>
+		<div>
+		<form action="mboard_createreply.php" method="post" >
+		<input type="hidden" name="message" value="<?php echo $message['id']; ?>">
+		<div>Reply title(optional):<br />
+		<input type="text" name="title" id="title" value="Re:<?php echo $posttitle; ?>">
+		</div>
+		<div>Reply Body:<br />
+		<textarea name="mbody" id="mbody"></textarea>
+		</div>
+		<input type="submit" value="Post reply" name="submit">
+		</form>
+		</div>
+		<?php endif; ?>
+
 		<div><a href="mboard_index.php">Message Board</a></div>
 	</body>
 </html>
