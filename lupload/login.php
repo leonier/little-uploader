@@ -29,9 +29,18 @@
 			}
 			else
 			{
+				
 				$_SESSION['username'] = $user["username"];
 				$_SESSION['password'] = $user["password_sha1"];
-				header("Location: index.php");
+				//header("Location: index.php");
+				if(isset($_SESSION['login_referer']))
+				{
+					$login_referer = $_SESSION['login_referer'];
+					unset($_SESSION['login_referer']);
+					header("Location: " . $login_referer);
+				}
+				else
+					header("Location: index.php");
 			}
 		}
 		else
@@ -43,6 +52,7 @@
 	}
 	else
 	{
+		unset($_SESSION['login_referer']);
 		echo "User ". $_SESSION['username']. " already logged in!";
 		echo "<br /><a href='index.php'>Return to Index</a>";
 	}

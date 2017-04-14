@@ -6,6 +6,12 @@
 	
 	session_start();
 	session_regenerate_id();
+
+	if(!isset($_SESSION['login_referer']))
+	{
+		$_SESSION['login_referer']=$_SERVER["HTTP_REFERER"];
+	}
+		
 	
 ?>
 
@@ -21,7 +27,7 @@
 	</head>
 	<body>
 		<?php if(!isset($_SESSION['username'])): ?>
-		<p>Login</p>
+		<p>Login</p>	
 		<form action="login.php" method="post">
 		<p>Username:<input type="text" name="username"  placeholder="Enter Name" maxlength="50"  /></p>
 		<p>Password:<input type="password" name="password"  placeholder="Enter Password" maxlength="32" /></p>

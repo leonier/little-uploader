@@ -2,6 +2,7 @@
 	header('Content-Type: text/html; charset=utf-8');
 	require_once 'db_config.php';
 	require_once 'db_class.php';
+	require_once 'tools.php';
 	$myfile=basename($_SERVER['PHP_SELF']);
 	$db = new database($pdo);
 	//$uploads = $db->selectuploads();
@@ -17,6 +18,7 @@
 	
 	session_start();
 	session_regenerate_id();
+	clearLoginReferer();
 ?>
 <html>
 	<head>

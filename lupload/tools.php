@@ -7,4 +7,9 @@ function processURL($string)
 	return $string;
 }
 
+function clearLoginReferer()
+{
+	if(isset($_SESSION['login_referer']))
+		unset($_SESSION['login_referer']);
+}
 ?>
