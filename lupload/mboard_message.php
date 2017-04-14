@@ -2,6 +2,7 @@
 	header('Content-Type: text/html; charset=utf-8');
 	require_once 'db_config.php';
 	require_once 'db_class.php';
+	require_once 'tools.php';
 	$myfile=basename($_SERVER['PHP_SELF']);
 	$db = new database($pdo);
 	$islogin = 0;
@@ -66,7 +67,7 @@
 				<td>Posted on:<?php echo $message['date_create']; ?></td>
 			</tr>
 			<tr><td colspan=2>IP/Host:<?php echo $message['userip']; ?></td></tr>
-			<tr><td colspan=2><?php echo nl2br(htmlentities($message['body'])); ?></td></tr>
+			<tr><td colspan=2><?php echo nl2br(processURL(htmlentities($message['body']))); ?></td></tr>
 			<tr><td colspan=2>
 			<?php if($message['date_modify']>0): ?>
 			Edited on <?php echo $message['date_modify']; ?>
@@ -99,7 +100,7 @@
 				<td>Replied on:<?php echo $reply['date_create']; ?></td>
 			</tr>
 			<tr><td colspan=2>IP/Host:<?php echo $reply['userip']; ?></td></tr>
-			<tr><td colspan=2><?php echo nl2br(htmlentities($reply['body'])); ?></td></tr>
+			<tr><td colspan=2><?php echo nl2br(processURL(htmlentities($reply['body']))); ?></td></tr>
 			<tr><td colspan=2>
 			<?php if($reply['date_modify']>0): ?>
 			Edited on <?php echo $reply['date_modify']; ?>

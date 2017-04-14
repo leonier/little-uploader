@@ -2,6 +2,7 @@
 	header('Content-Type: text/html; charset=utf-8');
 	require_once 'db_config.php';
 	require_once 'db_class.php';
+	require_once 'tools.php';
 	$myfile=basename($_SERVER['PHP_SELF']);
 	$db = new database($pdo);
 
@@ -72,7 +73,7 @@
 				<td>Poster:<?php echo $poster['username']; ?></td>
 				<td>Posted on:<?php echo $message['date_create']; ?></td>
 			</tr>
-			<tr><td colspan=2><?php echo nl2br(htmlentities($message['body'])); ?></td></tr>		
+			<tr><td colspan=2><?php echo nl2br(processURL(htmlentities($message['body']))); ?></td></tr>		
 		</table>		
 		<div>Edit reply:</div>
 		<form action="mboard_editreply_save.php" method="post">

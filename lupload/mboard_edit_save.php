@@ -59,7 +59,9 @@
 		$poster=$curuser['id'];
 		$uip=gethostbyaddr($_SERVER['REMOTE_ADDR']);
 		$db->updatemessages($messageID, $_POST['title'],$_POST['mbody'],$uip,$_SERVER['HTTP_USER_AGENT']);
-		header("Location: mboard_index.php"); 
+		
+		header("Location: mboard_message.php?id=" . $messageID); 
+
 		exit();
 	}	
 	?>
