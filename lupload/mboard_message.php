@@ -69,6 +69,8 @@
 			</tr>
 			<tr><td colspan=2>IP/Host:<?php echo $message['userip']; ?></td></tr>
 			<tr><td colspan=2><?php echo nl2br(processURL(htmlentities($message['body']))); ?></td></tr>
+			
+			<?php if($message['date_modify']>0 || $ownpost==1): ?>
 			<tr><td colspan=2>
 			<?php if($message['date_modify']>0): ?>
 			Edited on <?php echo $message['date_modify']; ?>
@@ -77,6 +79,8 @@
 			<a href="mboard_edit.php?id=<?php echo $_GET['id']; ?>">Edit post</a>
 			<?php endif; ?>
 			</td></tr>			
+			<?php endif; ?>
+	
 		</table>
 		
 		<?php foreach($replies as $reply): ?>
@@ -102,6 +106,7 @@
 			</tr>
 			<tr><td colspan=2>IP/Host:<?php echo $reply['userip']; ?></td></tr>
 			<tr><td colspan=2><?php echo nl2br(processURL(htmlentities($reply['body']))); ?></td></tr>
+			<?php if($reply['date_modify']>0 || $ownreply==1): ?>
 			<tr><td colspan=2>
 			<?php if($reply['date_modify']>0): ?>
 			Edited on <?php echo $reply['date_modify']; ?>
@@ -112,6 +117,7 @@
 			
 			<?php endif; ?>
 			</td></tr>	
+			<?php endif; ?>
 		</table>
 		<?php endforeach; ?>
 
