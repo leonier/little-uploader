@@ -13,6 +13,12 @@
 		$pagenum=1;
 	else
 		$pagenum=$_GET['page'];
+
+	if(!is_numeric($pagenum))
+		$pagenum=1;
+	else if($pagenum<1 || $pagenum>$maxpage)
+		$pagenum=1;
+
 	$uploadpage=array_reverse($db->selectuploadspage($uploadID, $pagenum, $filesperpage));
 		
 ?>
@@ -35,7 +41,10 @@
 		</form>
 		</div>
 		<div>
-		<?php echo $upcount; ?> files, page <?php echo $pagenum; ?>/<?php echo $maxpage; ?> 
+		<form action="<?php echo $myfile;?>" method="get">
+		<?php echo $upcount; ?> files, page <input type="text" name="page" size="3" value="<?php echo $pagenum; ?>">/<?php echo $maxpage; ?>
+		<input type="submit" value="Go">
+		</form> 
 		</div>
 		<div>
 		<a href="<?php echo $myfile;?>?page=1">&lt;&lt;</a>
