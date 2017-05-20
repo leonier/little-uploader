@@ -51,15 +51,9 @@
 				<p>New password:<input type="password" name="password1"  placeholder="Enter password" maxlength="32"  /></p>
 				<p>New password (again):<input type="password" name="password2"  placeholder="Enter password again" maxlength="32"  /></p>
 				<input type="hidden" name="uid" value="<?php echo $user['id']; ?>" />
-				<p><button type="submit">Submit</button></p>
+				<p><input type="submit" value="Submit" /></p>
 			</form>
 		<?php endif; ?>
-		<p>
-			<?php if(isset($_SERVER['HTTP_REFERER'])): ?>
-				<a href="<?php echo $_SERVER['HTTP_REFERER']; ?>">Return to last page</a>
-			<?php else: ?>
-				<a href="index.php">Return to index</a>	
-			<?php endif; ?>
-		</p>
+		<?php lastPageorindexPage(); ?>
 	</body>
 </html>
