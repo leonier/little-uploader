@@ -39,10 +39,14 @@
 	<body>
 		<div>
 		<?php if(!isset($_SESSION['username'])): ?>
+		<?php $islogin=0; ?>
 		<p>You must <a href="loginpage.php">Login</a> to upload files.</p>
 		<p><a href="register.php">Register</a> new user</p>
 		<?php else: ?>
-		<p>Logged in as <?php echo $_SESSION['username']; ?> <a href="logout.php">Logout</a></p>
+		<?php
+			$curuser=$db->getuser($_SESSION['username']);
+		?>
+		<p>Logged in as <a href="usrinfo.php?uid=<?php echo $curuser['id']; ?>"><?php echo $_SESSION['username']; ?></a> <a href="logout.php">Logout</a></p>
 		<?php $islogin=1; ?>
 		<form action="upload.php" method="post" enctype="multipart/form-data">
 		Select file to upload:

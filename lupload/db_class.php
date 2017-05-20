@@ -190,4 +190,32 @@
 			$query->execute(array(':id' => $id, ':title' => $title,  ':mbody' => $mbody, ':ip' => $ip, ':ua' => $ua, ':dm' => date("Y-m-d H:i:s") ));
 			return $query->fetchAll();		
 		}
+		function countuseruploads($id)
+		{
+			$query = $this->pdo->prepare("select count(*) from uploads where uploader=:id");
+			$query->execute(array(':id'=>$id));
+			$data=$query->fetchColumn();
+			return $data;
+		}
+		function countusermessages($id)
+		{
+			$query = $this->pdo->prepare("select count(*) from messages where poster=:id");
+			$query->execute(array(':id'=>$id));
+			$data=$query->fetchColumn();
+			return $data;
+		}
+		function countuserreplies($id)
+		{
+			$query = $this->pdo->prepare("select count(*) from replies where poster=:id");
+			$query->execute(array(':id'=>$id));
+			$data=$query->fetchColumn();
+			return $data;
+		}
+		function updateuserpassword($id, $password)
+		{
+			$password_sha1=password_hash($password, PASSWORD_DEFAULT);
+			$query = $this->pdo->prepare("update users set password_sha1=:password_sha1 where id=:id");
+			$query->execute(array(':id'=>$id, ':password_sha1'=>$password_sha1 ));
+			return $password_sha1;
+		} 
         }

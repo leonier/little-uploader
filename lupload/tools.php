@@ -12,4 +12,33 @@ function clearLoginReferer()
 	if(isset($_SESSION['login_referer']))
 		unset($_SESSION['login_referer']);
 }
+function lastPage()
+{
+	echo "<p><a href=\"" . $_SERVER['HTTP_REFERER'] . "\">Return to last page</a></p>";
+}
+function indexPage()
+{
+	echo "<p><a href=\"index.php\">Return to index</a></p>";
+}
+function lastPageorindexPage()
+{
+	if(isset($_SERVER['HTTP_REFERER']))
+		lastPage();
+	else
+		indexPage();
+}
+function isPasswordSane($password)
+{
+	if (strlen($password) < 6) 
+		return 0;
+    	/*
+	if (!preg_match("#[0-9]+#", $pwd))
+		return 0;
+	if (!preg_match("#[a-zA-Z]+#", $pwd))
+		return 0;
+	*/
+	//Pswd requirement must not be too hard for feature phone keyboard...
+
+	return 1;
+}
 ?>
