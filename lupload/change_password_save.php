@@ -76,5 +76,5 @@
 	$newsha1=$db->updateuserpassword($user['id'], $_POST["password1"]);
 	$_SESSION['password'] = $newsha1;
 	echo "<p>Password updated!</p>";
-	indexPage();
+	userInfoPage($user['id']);
 ?>

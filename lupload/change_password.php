@@ -54,6 +54,6 @@
 				<p><input type="submit" value="Submit" /></p>
 			</form>
 		<?php endif; ?>
-		<?php lastPageorindexPage(); ?>
+		<?php userInfoPage($user['id']); ?>
 	</body>
 </html>

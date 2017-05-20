@@ -51,6 +51,6 @@
 			<p>User options</p>
 			<p><a href="change_password.php?uid=<?php echo $user['id']; ?>">Change password</a></p>
 		<?php endif; ?>
-		<?php lastPageorindexPage(); ?>
+		<?php indexPage(); ?>
 	</body>
 </html>

@@ -20,6 +20,10 @@ function indexPage()
 {
 	echo "<p><a href=\"index.php\">Return to index</a></p>";
 }
+function userInfoPage($uid)
+{
+	echo "<p><a href=\"usrinfo.php?uid=" . $uid . "\">Return to user info page</a></p>";
+}
 function lastPageorindexPage()
 {
 	if(isset($_SERVER['HTTP_REFERER']))
