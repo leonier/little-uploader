@@ -10,6 +10,12 @@
 	else
 	{
 		$file=$db->selectuploadfordownload($_GET['id']);
+		if (!is_array($file))
+		{
+			header("HTTP/1.0 404 Not Found");
+			echo("File Not found!");
+			exit();
+		}
 		//echo "Tried to download ". $file[0] ;
 		$myPathInfo = pathinfo($_SERVER['DOCUMENT_ROOT'].$_SERVER['PHP_SELF']);
 		$currentDir = $myPathInfo['dirname'];
