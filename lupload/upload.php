@@ -31,6 +31,7 @@ else
 		|| ($ftype == "audio/midi") 
 		|| ($ftype == "application/x-midi") 
 		|| ($ftype == "audio/x-midi") 
+		|| ($ftype == "audio/mid") 
 		|| ($ftype == "application/x-smaf") 
 		|| ($ftype == "application/msword") 
 		|| ($ftype == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") 
