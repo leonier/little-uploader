@@ -45,4 +45,28 @@ function isPasswordSane($password)
 
 	return 1;
 }
+function isValidMIMEType($ftype)
+{
+	if ((($ftype == "image/jpeg") 
+	|| ($ftype == "image/pjpeg") 
+	|| ($ftype == "image/png") 
+	|| ($ftype == "audio/midi") 
+	|| ($ftype == "application/x-midi") 
+	|| ($ftype == "audio/x-midi") 
+	|| ($ftype == "audio/mid") 
+	|| ($ftype == "application/x-smaf") 
+	|| ($ftype == "application/msword") 
+	|| ($ftype == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") 
+	|| ($ftype == "image/gif") 
+	|| ($ftype == "video/3gpp")
+	|| ($ftype == "audio/amr")
+	|| ($ftype == "audio/x-amr")
+	|| ($ftype == "application/vnd.smaf")
+	|| ($ftype == "application/x-smaf")
+	|| ($ftype == "") 
+	))
+		return 1;
+	else
+		return 0;
+}
 ?>

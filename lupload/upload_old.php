@@ -2,6 +2,7 @@
 	header('Content-Type: text/html; charset=utf-8');
 	require_once 'db_config.php';
 	require_once 'db_class.php';
+	require_once 'tools.php';
 	$db = new database($pdo);
 ?>
 <html>
@@ -12,24 +13,7 @@
 	<body>
 <?php
 $ftype=$_FILES["file"]["type"];
-if ((($ftype == "image/jpeg") 
-|| ($ftype == "image/pjpeg") 
-|| ($ftype == "image/png") 
-|| ($ftype == "audio/midi") 
-|| ($ftype == "audio/mid") 
-|| ($ftype == "application/x-midi") 
-|| ($ftype == "audio/x-midi") 
-|| ($ftype == "application/x-smaf") 
-|| ($ftype == "application/msword") 
-|| ($ftype == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") 
-|| ($ftype == "image/gif") 
-|| ($ftype == "video/3gpp")
-|| ($ftype == "audio/amr")
-|| ($ftype == "application/vnd.smaf")
-|| ($ftype == "application/x-smaf")
-|| ($ftype == "") 
-
-))
+if (isValidMIMEType($ftype) == 1)
   {
   if ($_FILES["file"]["error"] > 0)
     {
