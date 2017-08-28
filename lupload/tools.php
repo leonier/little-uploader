@@ -69,4 +69,18 @@ function isValidMIMEType($ftype)
 	else
 		return 0;
 }
+//Filter out potentially dangerous filename extension.
+function isExecutableFile($filename)
+{
+	$lfilename=strtolower($filename);
+	if(strstr($lfilename,'.php')
+	|| strstr($lfilename,'.sh')
+	|| strstr($lfilename,'.py')
+	|| strstr($lfilename,'.pl')
+	|| strstr($lfilename,'.rb')
+	)
+		return 1;
+	else
+		return 0;
+}
 ?>

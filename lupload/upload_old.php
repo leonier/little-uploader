@@ -37,6 +37,14 @@ if (isValidMIMEType($ftype) == 1)
 		$hash = md5_file($_FILES["file"]["tmp_name"]);
 		$ext = end((explode(".", $_FILES["file"]["name"])));
 
+		if(isExecutableFile($_FILES["file"]["name"])==1)
+		{
+			echo "Executable files are not allowed!<br />";
+			echo '<a href="index.php">Return to Index</a></body></html>';
+			exit();
+		}
+
+
 		if($_FILES["file"]["size"] == 0 || !strcmp($hash, 'd41d8cd98f00b204e9800998ecf8427e'))
 		{
 			echo "Zero-sized files are not allowed!<br />";
