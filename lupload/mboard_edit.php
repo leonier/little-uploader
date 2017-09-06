@@ -55,7 +55,7 @@
 		<input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
 		<table>
 			<tr>
-				<td>Title(Optional):<input type="text" name="title" id="title" value="<?php echo $posttitle; ?>"></td>
+				<td>Title:<input type="text" name="title" id="title" value="<?php echo $posttitle; ?>"></td>
 			</tr>
 			<tr><td>Content:</td></tr>
 			<tr><td><textarea name="mbody" id="mbody"><?php echo $message['body']; ?></textarea></td></tr>
