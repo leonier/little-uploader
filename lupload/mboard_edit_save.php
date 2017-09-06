@@ -49,7 +49,7 @@
 	}	
 	
 
-	if (empty($_POST['title']) || empty($_POST['mbody']))
+	if (empty($_POST['mbody']))
 	{
 		echo "Request Error!";
 	}
