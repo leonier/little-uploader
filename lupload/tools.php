@@ -49,6 +49,7 @@ function isValidMIMEType($ftype)
 {
 	if ((($ftype == "image/jpeg") 
 	|| ($ftype == "image/pjpeg") 
+	|| ($ftype == "image/jpg") 
 	|| ($ftype == "image/png") 
 	|| ($ftype == "audio/midi") 
 	|| ($ftype == "application/x-midi") 
