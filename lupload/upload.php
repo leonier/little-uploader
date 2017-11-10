@@ -30,7 +30,14 @@ else
 		{
 			if ($_FILES["file"]["error"] > 0)
 			{
-				echo "Error! Return Code: " . $_FILES["file"]["error"] . "<br />";
+				switch($_FILES["file"]["error"])
+				{
+				case 4:
+					echo "Error! No file selected. <br />";
+					break;
+				default:
+					echo "Error! Return Code: " . $_FILES["file"]["error"] . "<br />";
+				}
 			}
 			else
 			{
