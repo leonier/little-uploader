@@ -44,7 +44,7 @@
 	<body>
 		<p>User Information</p>
 		<p>User name: <?php echo $user['username']; ?></p>
-		<p>Uploaded files: <?php echo $db->countuseruploads($user['id']); ?></p>
+		<p>Uploaded files: <?php echo $db->countuseruploads($user['id']); ?> <a href="index.php?uploader=<?php echo $user['id'];?>">Browse</a> </p>
 		<p>Posted messages: <?php echo $db->countusermessages($user['id']); ?></p>
 		<p>Posted replies: <?php echo $db->countuserreplies($user['id']); ?></p>
 		<?php if($usrlogin==1): ?>

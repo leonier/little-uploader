@@ -5,9 +5,32 @@
 	require_once 'tools.php';
 	$myfile=basename($_SERVER['PHP_SELF']);
 	$db = new database($pdo);
-	//$uploads = $db->selectuploads();
-	$uploadID = $db->selectuploadsid();
-	$upcount = count($uploadID);
+	//$uploads = $db->selectuploads();	
+
+	session_start();
+	session_regenerate_id();
+
+	if(!isset($_GET['uploader']) || !isset($_SESSION['username']))
+	{
+		$uploadID = $db->selectuploadsid();
+		$upcount = count($uploadID);
+	}
+	else
+	{
+		$upuser=$db->getuserfromid($_GET['uploader']);
+		if (!is_array($upuser))
+		{
+			$uploadID = $db->selectuploadsid();
+			$upcount = count($uploadID);			
+		}
+		else
+		{
+			$myuploader = $_GET['uploader'];
+			$uploadID = $db->selectuploadsidbyuploader($_GET['uploader']);
+			$upcount = count($uploadID);
+		}
+	}
+
 	$maxpage = ceil($upcount/$filesperpage);
 	if($maxpage==0) $maxpage=1;
 	if (empty($_GET['page']))
@@ -22,8 +45,7 @@
 	
 	$uploadpage=array_reverse($db->selectuploadspage($uploadID, $pagenum, $filesperpage));
 	
-	session_start();
-	session_regenerate_id();
+
 	clearLoginReferer();
 ?>
 <html>
@@ -58,31 +80,49 @@
 
 		<div>
 		<form action="<?php echo $myfile;?>" method="get">
+		<?php if(!isset($myuploader)): ?>
 		<?php echo $upcount; ?> files, page <input type="text" name="page" size="3" value="<?php echo $pagenum; ?>">/<?php echo $maxpage; ?> 
+		<?php else: ?>
+		User <?php echo $upuser['username']; ?> uploaded <?php echo $upcount; ?> files, page <input type="text" name="page" size="3" value="<?php echo $pagenum; ?>">/<?php echo $maxpage; ?> 		
+		<input type="hidden" name="uploader" value="<?php echo $myuploader; ?>" >
+		<?php endif; ?>
 		<input type="submit" value="Go">
+		<?php if(isset($myuploader)): ?>
+		<a href="<?php echo $myfile;?>">All files</a>
+		<?php endif;?>
 		</form> 		
+
 		</div>
 		<div>
-		<a href="<?php echo $myfile;?>?page=1">&lt;&lt;</a>
+
+		<?php
+			if(isset($myuploader))
+			{
+				$mytrail= "&uploader=" . $myuploader;
+			}
+		?>
+		<a href="<?php echo $myfile; ?>?page=1<?php echo $mytrail; ?>">&lt;&lt;</a>
 
 		<?php if($pagenum>1):?>
-		<a href="<?php echo $myfile;?>?page=<?php echo $pagenum-1;?>"><?php echo $pagenum-1;?></a>
+		<a href="<?php echo $myfile; ?>?page=<?php echo $pagenum-1;?><?php echo $mytrail; ?>"><?php echo $pagenum-1;?></a>
 		<?php endif; ?>
 
 		<?php echo $pagenum;?>
 
 		<?php if($pagenum<$maxpage):?>
-		<a href="<?php echo $myfile;?>?page=<?php echo $pagenum+1;?>"><?php echo $pagenum+1;?></a>
+		<a href="<?php echo $myfile; ?>?page=<?php echo $pagenum+1;?><?php echo $mytrail; ?>"><?php echo $pagenum+1;?></a>
 		<?php endif; ?>
 
-		<a href="<?php echo $myfile;?>?page=<?php echo $maxpage;?>">&gt;&gt;</a>
+		<a href="<?php echo $myfile; ?>?page=<?php echo $maxpage;?><?php echo $mytrail; ?>">&gt;&gt;</a>
 
 		</div>
 
 		<table>
 			<tr>
 				<td>Filename</td>
+				<?php if(!isset($myuploader)): ?>
 				<td>Uploader</td>
+				<?php endif; ?>
 				<td>Upload date</td>
 				<td>Operation</td>
 			</tr>
@@ -90,16 +130,26 @@
 			<?php foreach($uploadpage as $upfile): ?>
 			<tr>
 				<td><a href="download.php?id=<?php echo $upfile['id'];?>"><?php echo $upfile['filename']; ?></a></td>
+				<?php if(!isset($myuploader)): ?>
 				<td>
 					<?php if(isset($upfile['uploader'])): ?>
 					<?php
 						$uploader=$db->getuserfromid($upfile['uploader']);
-						echo $uploader['username'];
+						if($islogin==1)
+						{
+							echo "<a href=\"usrinfo.php?uid=" . $uploader['id'] . "\">" . $uploader['username'] . "</a>";	
+						}
+						else
+						{
+							echo $uploader['username'];
+						}
 					?>
 					<?php else: ?>
 					Anonymous
 					<?php endif; ?>
 				</td>
+				<?php endif; ?>
+
 				<td><?php echo $upfile['date_upload']; ?></td>
 				<td>
 					<?php if($islogin==1): ?>

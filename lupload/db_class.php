@@ -25,6 +25,14 @@
 			$query->execute();
 			return $query->fetchAll(PDO::FETCH_ASSOC);
 		}
+
+		function selectuploadsidbyuploader($uploader)
+		{
+			$query = $this->pdo->prepare('SELECT id FROM uploads WHERE uploader=:uploader order by id desc');
+			$query->execute(array(':uploader'=>$uploader));
+			return $query->fetchAll(PDO::FETCH_ASSOC);
+		}
+
 		function selectuploadspage($idset, $page, $filesperpage)
 		{
 			$minfile=($page-1)*$filesperpage;
