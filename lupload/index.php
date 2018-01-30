@@ -130,11 +130,14 @@
 			<?php foreach($uploadpage as $upfile): ?>
 			<tr>
 				<td><a href="download.php?id=<?php echo $upfile['id'];?>"><?php echo $upfile['filename']; ?></a></td>
+				<?php if(isset($upfile['uploader']))
+					$uploader=$db->getuserfromid($upfile['uploader']);
+				?>
 				<?php if(!isset($myuploader)): ?>
 				<td>
-					<?php if(isset($upfile['uploader'])): ?>
+					<?php if(isset($uploader)): ?>
 					<?php
-						$uploader=$db->getuserfromid($upfile['uploader']);
+						
 						if($islogin==1)
 						{
 							echo "<a href=\"usrinfo.php?uid=" . $uploader['id'] . "\">" . $uploader['username'] . "</a>";	
@@ -155,7 +158,7 @@
 					<?php if($islogin==1): ?>
 					<?php if(isset($upfile['uploader'])): ?>
 					<?php if($uploader['username'] == $_SESSION['username']): ?>
-					<a href="delfile.php?id=<?php echo $upfile['id'];?>">Delete</a>
+					<a href="delfile.php?id=<?php echo $upfile['id'];?><?php echo $mytrail; ?>">Delete</a>
 					<?php endif; ?>
 					<?php endif; ?>
 					<?php endif; ?>

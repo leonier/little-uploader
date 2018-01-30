@@ -46,7 +46,12 @@
 			exit();
 		}
 		$db->deleteuploadbyid($_GET['id']);
-		header("Location: index.php"); 
+		if(isset($_GET['uploader']))
+		{
+			header("Location: index.php?uploader=" . $_GET['uploader'] ); 
+		}
+		else
+			header("Location: index.php"); 
 		exit();
 	}	
 	?>
