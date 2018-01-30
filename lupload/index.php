@@ -73,6 +73,9 @@
 		<form action="upload.php" method="post" enctype="multipart/form-data">
 		Select file to upload:
 		<input type="file" name="file" id="file">
+		<?php if(isset($myuploader) && $upuser['username'] == $_SESSION['username'] ): ?>
+		<input type="hidden" name="backtouploaderpage" value="1">
+		<?php endif;?>
 		<input type="submit" value="Upload" name="submit">
 		</form>
 		<?php endif; ?>

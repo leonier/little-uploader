@@ -83,7 +83,10 @@ else
 					{
 						$db->insertuploadswithuploader($_FILES["file"]["name"],  $hash . '.'. $ext, $user['id'], gethostbyaddr($_SERVER['REMOTE_ADDR']), $_SERVER['HTTP_USER_AGENT']);
 						echo '<br />upload Succeeded!';
-						header("Location: index.php");
+						if(isset($_POST["backtouploaderpage"]) && $_POST["backtouploaderpage"] == "1")
+							header("Location: index.php?uploader=" . $user['id'] );
+						else
+							header("Location: index.php");
 					}
 					else
 					{
