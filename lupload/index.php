@@ -165,19 +165,19 @@
 		</table>
 
 		<div>
-		<a href="<?php echo $myfile;?>?page=1">&lt;&lt;</a>
+		<a href="<?php echo $myfile;?>?page=1<?php echo $mytrail; ?>">&lt;&lt;</a>
 
 		<?php if($pagenum>1):?>
-		<a href="<?php echo $myfile;?>?page=<?php echo $pagenum-1;?>"><?php echo $pagenum-1;?></a>
+		<a href="<?php echo $myfile;?>?page=<?php echo $pagenum-1;?><?php echo $mytrail; ?>"><?php echo $pagenum-1;?></a>
 		<?php endif; ?>
 
 		<?php echo $pagenum;?>
 
 		<?php if($pagenum<$maxpage):?>
-		<a href="<?php echo $myfile;?>?page=<?php echo $pagenum+1;?>"><?php echo $pagenum+1;?></a>
+		<a href="<?php echo $myfile;?>?page=<?php echo $pagenum+1;?><?php echo $mytrail; ?>"><?php echo $pagenum+1;?></a>
 		<?php endif; ?>
 
-		<a href="<?php echo $myfile;?>?page=<?php echo $maxpage;?>">&gt;&gt;</a>
+		<a href="<?php echo $myfile;?>?page=<?php echo $maxpage;?><?php echo $mytrail; ?>">&gt;&gt;</a>
 
 		</div>
 		<div><a href="mboard_index.php">Message Board</a></div>
